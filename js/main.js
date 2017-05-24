@@ -36,8 +36,9 @@
   });
 
   document.addEventListener(`keydown`, (event) => {
+    event.preventDefault();
+
     if (event.altKey && event.code === `ArrowLeft`) {
-      event.preventDefault();
       slideLeft();
     }
 
