@@ -1,33 +1,48 @@
-const templatesOrder = [`greeting`, `rules`, `game-1`, `game-2`, `game-3`, `stats`];
-let central;
-let currentTemplate;
-let templates;
+(() => {
+  const templatesOrder = [
+    `greeting`, `rules`, `game-1`, `game-2`, `game-3`, `stats`
+  ];
 
-document.addEventListener(`DOMContentLoaded`, () => {
-  central = document.querySelector(`main.central`);
-  templates = Array.prototype.slice.call(document.getElementsByTagName(`template`), 0);
-  setMainCentral(templates.find((t) => t.id === `greeting`));
-});
+  let central;
+  let templates = {};
+  let templateIndex;
 
-document.addEventListener(`keydown`, (event) => {
-  if (event.altKey && event.code === `ArrowLeft`) {
-    slideTemplate((index) => index > 0, (index) => index - 1);
-  }
+  const getTemplateIndex = (id) => templatesOrder.indexOf(id);
 
-  if (event.altKey && event.code === `ArrowRight`) {
-    slideTemplate((index) => index < templatesOrder.length - 1, (index) => index + 1);
-  }
-});
+  const selectTemplate = (index) => {
+    templateIndex = index;
+    central.innerHTML = templates[templatesOrder[index]].innerHTML;
+  };
 
-function setMainCentral(template) {
-  currentTemplate = template;
-  central.innerHTML = template.innerHTML;
-}
+  const slideLeft = () => {
+    if (templateIndex > 0) {
+      selectTemplate(templateIndex - 1);
+    }
+  };
 
-function slideTemplate(test, modificator) {
-  let index = templatesOrder.indexOf(currentTemplate.id);
+  const slideRight = () => {
+    if (templateIndex < templatesOrder.length - 1) {
+      selectTemplate(templateIndex + 1);
+    }
+  };
 
-  if (test(index)) {
-    setMainCentral(templates.find((t) => t.id === templatesOrder[modificator(index)]));
-  }
-}
+  document.addEventListener(`DOMContentLoaded`, () => {
+    let templateElements =
+      Array.from(document.getElementsByTagName(`template`));
+
+    central = document.querySelector(`main.central`);
+    templateElements.forEach((el) => (templates[el.id] = el));
+    selectTemplate(getTemplateIndex(`greeting`));
+  });
+
+  document.addEventListener(`keydown`, (event) => {
+    if (event.altKey && event.code === `ArrowLeft`) {
+      event.preventDefault();
+      slideLeft();
+    }
+
+    if (event.altKey && event.code === `ArrowRight`) {
+      slideRight();
+    }
+  });
+})();
