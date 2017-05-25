@@ -15,15 +15,23 @@
   };
 
   const slideLeft = () => {
-    if (templateIndex > 0) {
+    if (canSlideLeft()) {
       selectTemplate(templateIndex - 1);
     }
   };
 
   const slideRight = () => {
-    if (templateIndex < templatesOrder.length - 1) {
+    if (canSlideRight()) {
       selectTemplate(templateIndex + 1);
     }
+  };
+
+  const canSlideLeft = () => {
+    return templateIndex > 0;
+  };
+
+  const canSlideRight = () => {
+    return templateIndex < templatesOrder.length - 1;
   };
 
   document.addEventListener(`DOMContentLoaded`, () => {
@@ -36,14 +44,18 @@
   });
 
   document.addEventListener(`keydown`, (event) => {
-    event.preventDefault();
-
     if (event.altKey && event.code === `ArrowLeft`) {
-      slideLeft();
+      if (canSlideLeft()) {
+        event.preventDefault();
+        slideLeft();
+      }
     }
 
     if (event.altKey && event.code === `ArrowRight`) {
-      slideRight();
+      if (canSlideRight()) {
+        event.preventDefault();
+        slideRight();
+      }
     }
   });
 })();
