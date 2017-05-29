@@ -1,8 +1,9 @@
-/*
- * Trasforms HTML string to DOM element
-*/
-export default function transform(htmlString) {
-  let template = document.createElement(`template`);
+import footer from './controls/footer';
+
+export default function transform(central, htmlString) {
+  const template = document.createElement(`div`);
   template.innerHTML = htmlString;
-  return template;
+
+  template.appendChild(footer());
+  central.innerHTML = template.innerHTML;
 }

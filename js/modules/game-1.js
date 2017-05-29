@@ -1,7 +1,10 @@
-import htmlToElement from '../htmlToElement';
-import footer from '../controls/footer';
+import htmlToElement from './../htmlToElement';
+import game2 from './game-2';
+import greeting from './greeting';
 
-export const content = htmlToElement.transform(`  <header class="header">
+
+export default function (central) {
+  htmlToElement(central, `  <header class="header">
     <div class="header__back">
       <span class="back">
         <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
@@ -55,5 +58,20 @@ export const content = htmlToElement.transform(`  <header class="header">
         <li class="stats__result stats__result--unknown"></li>
       </ul>
     </div>
-  </div>
-  ${footer}`);
+  </div>`);
+
+  const question1 = document.getElementsByName(`question1`);
+  const question2 = document.getElementsByName(`question2`);
+
+  question1.forEach((rb) => rb.addEventListener(`click`, navigateToGame2(question1, question2, central)));
+  question2.forEach((rb) => rb.addEventListener(`click`, navigateToGame2(question1, question2, central)));
+
+  central.querySelector(`.header__back`).addEventListener(`click`, () => greeting(central));
+}
+
+function navigateToGame2(question1, question2, central) {
+  if ((question1[0].checked || question1[1].checked) &&
+      (question2[0].checked || question2[1].checked)) {
+    game2(central);
+  }
+}

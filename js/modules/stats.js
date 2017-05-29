@@ -1,5 +1,4 @@
 import htmlToElement from '../htmlToElement';
-import footer from '../controls/footer';
 
 export const content = htmlToElement.transform(`  <header class="header">
     <div class="header__back">
@@ -44,5 +43,4 @@ export const content = htmlToElement.transform(`  <header class="header">
         <li class="stats__result stats__result--unknown"></li>
       </ul>
     </div>
-  </div>
-  ${footer}`);
+  </div>`);
