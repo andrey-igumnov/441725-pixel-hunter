@@ -1,5 +1,5 @@
 /*
- * Trasforms HTML string to DOM elemnt
+ * Trasforms HTML string to DOM element
 */
 export function transform(htmlString) {
   let template = document.createElement(`template`);
