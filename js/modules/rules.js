@@ -33,18 +33,35 @@ const template = `  <header class="header">
     </form>
   </div>`;
 
-let element = null;
-
 export default function (central) {
-  if (element === null) {
-    element = htmlToElement(central, template);
-    const submitButton = central.querySelector(`.rules__button`);
 
-    central.querySelector(`.rules__input`).addEventListener(`keyup`, (data) =>
-      (submitButton.disabled = data.srcElement.value === ``));
+  htmlToElement(central, template);
 
-    submitButton.addEventListener(`click`, () => game1(central));
+  const submitButton = central.querySelector(`.rules__button`);
+  const inputTextBox = central.querySelector(`.rules__input`);
+  const headerBack = central.querySelector(`.header__back`);
 
-    central.querySelector(`.header__back`).addEventListener(`click`, () => greeting(central));
-  }
+  const inputTextBoxKeyup = (data) => {
+    submitButton.disabled = data.srcElement.value === ``;
+  };
+
+  const switchToGame1 = () => {
+    unsubscribe();
+    game1(central);
+  };
+
+  const switchToGreeting = () => {
+    unsubscribe();
+    greeting(central);
+  };
+
+  const unsubscribe = () => {
+    submitButton.removeEventListener(`click`, switchToGame1);
+    inputTextBox.removeEventListener(`keyup`, inputTextBoxKeyup);
+    headerBack.removeEventListener(`click`, switchToGreeting);
+  };
+
+  inputTextBox.addEventListener(`keyup`, inputTextBoxKeyup);
+  submitButton.addEventListener(`click`, switchToGame1);
+  headerBack.addEventListener(`click`, switchToGreeting);
 }

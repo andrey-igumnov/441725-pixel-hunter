@@ -47,22 +47,29 @@ const template = `  <header class="header">
     </div>
   </div>`;
 
-let element = null;
-
 export default function (central) {
-  if (element === null) {
-    element = htmlToElement(central, template);
 
-    const question1 = document.getElementsByName(`question1`);
+  htmlToElement(central, template);
+  const question1 = document.getElementsByName(`question1`);
+  const headerBack = central.querySelector(`.header__back`);
 
-    question1.forEach((rb) => rb.addEventListener(`click`, () => navigateToGame3(question1, central)));
+  const switchToGreeting = () => {
+    unsubscribe();
+    greeting(central);
+  };
 
-    central.querySelector(`.header__back`).addEventListener(`click`, () => greeting(central));
-  }
-}
+  const radioButtonClick = () => {
+    if (question1[0].checked || question1[1].checked) {
+      unsubscribe();
+      game3(central);
+    }
+  };
 
-function navigateToGame3(question1, central) {
-  if (question1[0].checked || question1[1].checked) {
-    game3(central);
-  }
+  const unsubscribe = () => {
+    question1.forEach((rb) => rb.removeEventListener(`click`, radioButtonClick));
+    headerBack.removeEventListener(`click`, switchToGreeting);
+  };
+
+  question1.forEach((rb) => rb.addEventListener(`click`, radioButtonClick));
+  headerBack.addEventListener(`click`, switchToGreeting);
 }

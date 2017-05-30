@@ -15,12 +15,14 @@ const template = `  <div class="greeting central--blur">
     <div class="greeting__continue"><span><img src="img/arrow_right.svg" width="64" height="64" alt="Next"></span></div>
   </div>`;
 
-let element = null;
-
-
 export default function (central) {
-  if (element === null) {
-    element = htmlToElement(central, template);
-    central.querySelector(`.greeting__continue`).addEventListener(`click`, () => rules(central));
-  }
+  htmlToElement(central, template);
+
+  const continueButton = central.querySelector(`.greeting__continue`);
+  const switchToRules = () => {
+    continueButton.removeEventListener(`click`, switchToRules);
+    rules(central);
+  };
+
+  continueButton.addEventListener(`click`, switchToRules);
 }

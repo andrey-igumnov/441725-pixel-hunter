@@ -8,11 +8,14 @@ const template = `  <div id="main" class="central__content">
     </div>
   </div>`;
 
-let element = null;
-
 export default function (central) {
-  if (element === null) {
-    element = htmlToElement(central, template);
-    central.querySelector(`.intro__asterisk`).addEventListener(`click`, () => greeting(central));
-  }
+  htmlToElement(central, template);
+
+  const asterisk = central.querySelector(`.intro__asterisk`);
+  const switchToGreeting = () => {
+    asterisk.removeEventListener(`click`, switchToGreeting);
+    greeting(central);
+  };
+
+  asterisk.addEventListener(`click`, switchToGreeting);
 }

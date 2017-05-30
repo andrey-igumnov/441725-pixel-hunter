@@ -45,14 +45,28 @@ const template = `  <header class="header">
     </div>
   </div>`;
 
-let element = null;
 
 export default function (central) {
-  if (element === null) {
-    element = htmlToElement(central, template);
 
-    const gameOptions = document.querySelectorAll(`.game__option`);
+  htmlToElement(central, template);
+  const gameOptions = document.querySelectorAll(`.game__option`);
+  const headerBack = central.querySelector(`.header__back`);
 
-    gameOptions.forEach((option) => option.addEventListener(`click`, () => stats(central)));
-  }
+  const switchToGreeting = () => {
+    unsubscribe();
+    greeting(central);
+  };
+
+  const switchToStats = () => {
+    unsubscribe();
+    stats(central);
+  };
+
+  const unsubscribe = () => {
+    gameOptions.forEach((option) => option.removeEventListener(`click`, switchToStats));
+    headerBack.removeEventListener(`click`, switchToGreeting);
+  };
+
+  gameOptions.forEach((option) => option.addEventListener(`click`, switchToStats));
+  headerBack.addEventListener(`click`, switchToGreeting);
 }

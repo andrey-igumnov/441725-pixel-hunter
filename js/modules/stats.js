@@ -110,12 +110,15 @@ const template = `  <header class="header">
     </table>
   </div>`;
 
-let element = null;
-
 export default function (central) {
-  if (element === null) {
-    element = htmlToElement(central, template);
 
-    central.querySelector(`.header__back`).addEventListener(`click`, () => greeting(central));
-  }
+  htmlToElement(central, template);
+
+  const switchToGreeting = () => {
+    headerBack.removeEventListener(`click`, switchToGreeting);
+    greeting(central);
+  };
+
+  const headerBack = central.querySelector(`.header__back`);
+  headerBack.addEventListener(`click`, switchToGreeting);
 }

@@ -10,6 +10,7 @@ export default function htmlToElement(central, htmlString) {
 
   template.appendChild(footer());
 
-  // template.childNodes.forEach((node) => central.appendChild(node));
-  central.innerHTML = template.innerHTML;
+  while (template.firstChild) {
+    central.appendChild(template.firstChild);
+  }
 }

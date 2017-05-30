@@ -58,25 +58,33 @@ const template = `  <header class="header">
     </div>
   </div>`;
 
-let element = null;
-
 export default function (central) {
-  if (element === null) {
-    element = htmlToElement(central, template);
-    const question1 = document.getElementsByName(`question1`);
-    const question2 = document.getElementsByName(`question2`);
 
-    question1.forEach((rb) => rb.addEventListener(`click`, () => navigateToGame2(question1, question2, central)));
-    question2.forEach((rb) => rb.addEventListener(`click`, () => navigateToGame2(question1, question2, central)));
+  htmlToElement(central, template);
+  const question1 = document.getElementsByName(`question1`);
+  const question2 = document.getElementsByName(`question2`);
+  const headerBack = central.querySelector(`.header__back`);
 
-    central.querySelector(`.header__back`).addEventListener(`click`, () => greeting(central));
-  }
-}
+  const switchToGreeting = () => {
+    unsubscribe();
+    greeting(central);
+  };
 
-function navigateToGame2(question1, question2, central) {
+  const radioButtonClick = () => {
+    if ((question1[0].checked || question1[1].checked) &&
+        (question2[0].checked || question2[1].checked)) {
+      unsubscribe();
+      game2(central);
+    }
+  };
 
-  if ((question1[0].checked || question1[1].checked) &&
-      (question2[0].checked || question2[1].checked)) {
-    game2(central);
-  }
+  const unsubscribe = () => {
+    question1.forEach((rb) => rb.removeEventListener(`click`, radioButtonClick));
+    question2.forEach((rb) => rb.removeEventListener(`click`, radioButtonClick));
+    headerBack.removeEventListener(`click`, switchToGreeting);
+  };
+
+  question1.forEach((rb) => rb.addEventListener(`click`, radioButtonClick));
+  question2.forEach((rb) => rb.addEventListener(`click`, radioButtonClick));
+  headerBack.addEventListener(`click`, switchToGreeting);
 }
