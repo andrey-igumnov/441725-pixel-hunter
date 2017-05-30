@@ -1,7 +1,8 @@
 import htmlToElement from './../htmlToElement';
+import game3 from './game-3';
+import greeting from './greeting';
 
-export default function (central) {
-  htmlToElement(central, `  <header class="header">
+const template = `  <header class="header">
     <div class="header__back">
       <span class="back">
         <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
@@ -44,5 +45,24 @@ export default function (central) {
         <li class="stats__result stats__result--unknown"></li>
       </ul>
     </div>
-  </div>`);
+  </div>`;
+
+let element = null;
+
+export default function (central) {
+  if (element === null) {
+    element = htmlToElement(central, template);
+
+    const question1 = document.getElementsByName(`question1`);
+
+    question1.forEach((rb) => rb.addEventListener(`click`, () => navigateToGame3(question1, central)));
+
+    central.querySelector(`.header__back`).addEventListener(`click`, () => greeting(central));
+  }
+}
+
+function navigateToGame3(question1, central) {
+  if (question1[0].checked || question1[1].checked) {
+    game3(central);
+  }
 }

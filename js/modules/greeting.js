@@ -1,8 +1,7 @@
 import htmlToElement from './../htmlToElement';
 import rules from './rules';
 
-export default function (central) {
-  htmlToElement(central, `  <div class="greeting central--blur">
+const template = `  <div class="greeting central--blur">
     <div class="greeting__logo"><img src="img/logo_big.png" width="201" height="89" alt="Pixel Hunter"></div>
     <h1 class="greeting__asterisk">*</h1>
     <div class="greeting__challenge">
@@ -14,7 +13,14 @@ export default function (central) {
         Помни, главное — смотреть очень внимательно.</p>
     </div>
     <div class="greeting__continue"><span><img src="img/arrow_right.svg" width="64" height="64" alt="Next"></span></div>
-  </div>`);
+  </div>`;
 
-  central.querySelector(`.greeting__continue`).addEventListener(`click`, () => rules(central));
+let element = null;
+
+
+export default function (central) {
+  if (element === null) {
+    element = htmlToElement(central, template);
+    central.querySelector(`.greeting__continue`).addEventListener(`click`, () => rules(central));
+  }
 }

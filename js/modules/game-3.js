@@ -1,6 +1,8 @@
-import htmlToElement from '../htmlToElement';
+import htmlToElement from './../htmlToElement';
+import greeting from './greeting';
+import stats from './stats';
 
-export const content = htmlToElement.transform(`  <header class="header">
+const template = `  <header class="header">
     <div class="header__back">
       <span class="back">
         <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
@@ -41,4 +43,16 @@ export const content = htmlToElement.transform(`  <header class="header">
         <li class="stats__result stats__result--unknown"></li>
       </ul>
     </div>
-  </div>`);
+  </div>`;
+
+let element = null;
+
+export default function (central) {
+  if (element === null) {
+    element = htmlToElement(central, template);
+
+    const gameOptions = document.querySelectorAll(`.game__option`);
+
+    gameOptions.forEach((option) => option.addEventListener(`click`, () => stats(central)));
+  }
+}
