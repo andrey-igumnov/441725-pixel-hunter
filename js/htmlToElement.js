@@ -1,6 +1,7 @@
 import footer from './controls/footer';
+import stats from './controls/stats';
 
-export default function htmlToElement(central, htmlString) {
+export default function htmlToElement(central, htmlString, gameState) {
   while (central.firstChild) {
     central.removeChild(central.firstChild);
   }
@@ -12,5 +13,9 @@ export default function htmlToElement(central, htmlString) {
 
   while (template.firstChild) {
     central.appendChild(template.firstChild);
+  }
+
+  if (gameState) {
+    central.appendChild(stats(gameState));
   }
 }

@@ -2,6 +2,7 @@ import htmlToElement from './../htmlToElement';
 import game2 from './game-2';
 import greeting from './greeting';
 
+
 const template = `  <header class="header">
     <div class="header__back">
       <span class="back">
@@ -42,25 +43,13 @@ const template = `  <header class="header">
         </label>
       </div>
     </form>
-    <div class="stats">
-      <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--unknown"></li>
-      </ul>
-    </div>
   </div>`;
 
-export default function (central) {
+let res = `unknown`;
 
-  htmlToElement(central, template);
+export default function (central, gameState) {
+
+  htmlToElement(central, template, gameState);
   const question1 = document.getElementsByName(`question1`);
   const question2 = document.getElementsByName(`question2`);
   const headerBack = central.querySelector(`.header__back`);
@@ -88,3 +77,5 @@ export default function (central) {
   question2.forEach((rb) => rb.addEventListener(`click`, radioButtonClick));
   headerBack.addEventListener(`click`, switchToGreeting);
 }
+
+export const result = res;
